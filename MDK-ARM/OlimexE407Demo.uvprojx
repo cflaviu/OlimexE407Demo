@@ -576,6 +576,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\LED_OlimexH407.c</FilePath>
             </File>
+            <File>
+              <FileName>Buttons_OlimexH407.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Buttons_OlimexH407.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1155,6 +1160,11 @@
               <FileName>LED_OlimexH407.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\LED_OlimexH407.c</FilePath>
+            </File>
+            <File>
+              <FileName>Buttons_OlimexH407.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Buttons_OlimexH407.c</FilePath>
             </File>
           </Files>
         </Group>
