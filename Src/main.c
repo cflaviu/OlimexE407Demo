@@ -132,6 +132,7 @@ void SystemClock_Config(void)
 {
 
   RCC_OscInitTypeDef RCC_OscInitStruct;
+  RCC_ClkInitTypeDef RCC_ClkInitStruct;
 
   __PWR_CLK_ENABLE();
 
@@ -143,6 +144,14 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
+
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
@@ -151,11 +160,8 @@ void SystemClock_Config(void)
   HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
-void Button_LED_Demo()
+// LED demo
+void LED_Demo()
 {
   LED_Initialize();
   uint16_t delayMs = 1000;
@@ -170,9 +176,39 @@ void Button_LED_Demo()
   LED_Uninitialize();
 }
 
+// Button & LED demo
+void Button_LED_Demo()
+{
+  Buttons_Initialize();
+  LED_Initialize();  
+  
+  for( uint8_t i = 3; i--; )
+  {
+    LED_Off( 0);
+    osDelay( 200);
+    while( !Buttons_GetState())
+    {
+      osDelay( 100);
+    }
+    
+    uint16_t delayMs = 100;
+    for( uint8_t count = 100; count--; )
+    {
+      LED_On( 0);    
+      osDelay( delayMs);
+      LED_Off( 0);
+      osDelay( delayMs);
+    }
+  }
+
+  Buttons_Uninitialize();
+  LED_Uninitialize();  
+}
+
 /* StartDefaultTask function */
 void StartDefaultTask(void const * argument)
 {
+  //LED_Demo();
   Button_LED_Demo();
 }
 
